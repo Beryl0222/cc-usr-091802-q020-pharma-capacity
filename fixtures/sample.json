@@ -1,0 +1,12 @@
+{
+  "service": "pharma-capacity",
+  "context": {
+    "target_year": 2030,
+    "resource_types": [
+      "production-line",
+      "lab",
+      "equipment"
+    ],
+    "double_counting_allowed": false
+  }
+}
