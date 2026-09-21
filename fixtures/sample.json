@@ -3,10 +3,39 @@
   "context": {
     "target_year": 2030,
     "resource_types": [
+      "entity",
+      "facility",
       "production-line",
-      "lab",
-      "equipment"
+      "equipment",
+      "platform",
+      "license",
+      "supplier",
+      "project",
+      "milestone"
     ],
-    "double_counting_allowed": false
+    "evidence_kinds": [
+      "investment-agreement",
+      "acceptance",
+      "capacity-audit",
+      "financing-news",
+      "license-certificate",
+      "other"
+    ],
+    "stages": [
+      "registered",
+      "planned",
+      "equipment",
+      "accepted",
+      "licensed",
+      "operational"
+    ],
+    "double_counting_allowed": false,
+    "shared_resource_model": "按年份 × 能力单位占用，超售拒绝",
+    "cross_park_rule": "联合项目在区域合计中只计一次，园区分项按 attribution 分成",
+    "bitemporal": {
+      "occurred_at": "业务生效时间：并购/迁移/延期/口径修订从该日起形成新版本",
+      "recorded_at": "系统记录时间：年报按发布时刻截断，之后补录证据不改变已发布报告"
+    },
+    "commercial_access": "confidential 事件与证据仅向持 commercial_access 授权的用户开放"
   }
 }
