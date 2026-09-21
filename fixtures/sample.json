@@ -2,11 +2,429 @@
   "service": "pharma-capacity",
   "context": {
     "target_year": 2030,
-    "resource_types": [
-      "production-line",
-      "lab",
-      "equipment"
-    ],
-    "double_counting_allowed": false
-  }
+    "as_of": "2026-09-21",
+    "resource_types": ["production-line", "lab", "equipment", "platform"],
+    "double_counting_allowed": false,
+    "capacity_unit": "万支（能力当量）",
+    "note": "全部主体与数据均为虚构样例，不含真实个人资料或业务凭据"
+  },
+  "parks": [
+    {"id": "park-binhai", "name": "滨海生命园", "region": "csj"},
+    {"id": "park-taihu", "name": "太湖医谷", "region": "csj"},
+    {"id": "park-jingnan", "name": "京南药谷", "region": "jjj"}
+  ],
+  "enterprises": [
+    {"id": "ent-huixin", "name": "惠鑫生物"},
+    {"id": "ent-ruike", "name": "瑞珂智造"},
+    {"id": "ent-boda", "name": "博达冷链包装"},
+    {"id": "ent-yuanze", "name": "元泽基因"},
+    {"id": "ent-beimu", "name": "北慕制药"},
+    {"id": "ent-anrong", "name": "安融药业"}
+  ],
+  "facilities": [
+    {"id": "fac-line-a", "name": "滨海共享无菌灌装线A", "park_id": "park-binhai",
+     "capability": "sterile-fill", "shared": true, "units_per_day": 1.0},
+    {"id": "fac-line-b", "name": "太湖共享无菌灌装线B", "park_id": "park-taihu",
+     "capability": "sterile-fill", "shared": true, "units_per_day": 1.2},
+    {"id": "fac-line-c", "name": "京南共享冷链包装线C", "park_id": "park-jingnan",
+     "capability": "cold-pack", "shared": true, "units_per_day": 0.6}
+  ],
+  "equipment": [
+    {"id": "eq-fill-01", "name": "无菌灌装机01", "facility_id": "fac-line-a",
+     "supplier_id": "sup-precision"},
+    {"id": "eq-isolator-02", "name": "无菌隔离系统02", "facility_id": "fac-line-a",
+     "supplier_id": "sup-precision"},
+    {"id": "eq-cold-01", "name": "冷链灌装模块01", "facility_id": "fac-line-c",
+     "supplier_id": "sup-nordic"},
+    {"id": "eq-reactor-01", "name": "配液反应釜01", "facility_id": "fac-line-b",
+     "supplier_id": "sup-huachen"}
+  ],
+  "platforms": [
+    {"id": "plat-cmc", "name": "无菌制剂CMC公共平台", "park_id": "park-binhai"},
+    {"id": "plat-glp", "name": "长三角GLP安评平台", "park_id": "park-taihu"}
+  ],
+  "suppliers": [
+    {"id": "sup-precision", "name": "精工流体系统", "category": "fill-skid",
+     "status": "active"},
+    {"id": "sup-dongtai", "name": "东泰流体", "category": "fill-skid",
+     "status": "active"},
+    {"id": "sup-nordic", "name": "北欧冷链装备", "category": "cold-chain",
+     "status": "disrupted", "disrupted_on": "2026-07-15"},
+    {"id": "sup-aosen", "name": "奥森冷链", "category": "cold-chain",
+     "status": "active"},
+    {"id": "sup-huachen", "name": "华辰装备", "category": "reactor",
+     "status": "active"}
+  ],
+  "calibers": [
+    {"id": "cal-2025-plan", "name": "2025规划口径（申报值全额计入）",
+     "effective_on": "2025-01-01", "min_stage": "planning",
+     "count_unsubstantiated": true},
+    {"id": "cal-2026-evidenced", "name": "2026修订口径（只计预订产能依据）",
+     "effective_on": "2026-01-01", "min_stage": "licensing",
+     "count_unsubstantiated": false}
+  ],
+  "reports": [
+    {"id": "rpt-2025", "title": "2030规划2025年度报告（长三角）",
+     "published_on": "2026-02-15", "scope": "region", "scope_id": "csj",
+     "year": 2030, "caliber": "cal-2025-plan",
+     "as_of_effective": "2025-12-31", "as_of_recorded": "2025-12-31"}
+  ],
+  "authorizations": {
+    "u-bai": {"name": "白雪", "roles": ["commercial"], "projects": ["proj-boda-pack"]},
+    "u-lin": {"name": "林刚", "roles": ["admin"], "projects": ["*"]},
+    "u-chen": {"name": "陈晨", "roles": ["viewer"], "projects": []}
+  },
+  "decisions": [
+    {"project_id": "proj-huixin-fill", "on": "2026-08-15",
+     "from_stage": "licensing", "to_stage": "licensing", "approved": false,
+     "missing": ["regulatory_license"],
+     "note": "许可尚未获批，越级推进被拦截"}
+  ],
+  "dispositions": [],
+  "projects": [
+    {
+      "id": "proj-huixin-fill",
+      "name": "惠鑫生物无菌制剂产业化项目",
+      "versions": [
+        {"version": 1, "event": "created", "effective_on": "2026-02-01",
+         "recorded_on": "2026-02-01", "stage": "planning",
+         "enterprise_id": "ent-huixin", "park_ids": ["park-binhai"],
+         "joint": false, "target_year": 2030, "planned_output": 200,
+         "bookings": [], "milestones": [], "dependencies": {}},
+        {"version": 2, "event": "stage_advance", "effective_on": "2026-02-20",
+         "recorded_on": "2026-02-20", "stage": "licensing",
+         "enterprise_id": "ent-huixin", "park_ids": ["park-binhai"],
+         "joint": false, "target_year": 2030, "planned_output": 200,
+         "bookings": [
+           {"facility_id": "fac-line-a", "start": "2027-01-01",
+            "end": "2030-07-01", "units_per_day": 0.55,
+            "purpose": "商业化灌装"}
+         ],
+         "milestones": [
+           {"id": "ms-hx-1", "name": "取得药品生产许可",
+            "due_on": "2026-12-01", "gate": "regulatory_license"},
+           {"id": "ms-hx-2", "name": "工艺验证三批",
+            "due_on": "2027-06-30", "gate": "acceptance_report"}
+         ],
+         "dependencies": {
+           "equipment": ["eq-fill-01"],
+           "suppliers": ["sup-precision"],
+           "platforms": ["plat-cmc"],
+           "prerequisites": []
+         }}
+      ],
+      "evidence": [
+        {"id": "ev-hx-agree", "kind": "investment_agreement",
+         "title": "投资协议（已签署）", "status": "approved",
+         "recorded_on": "2026-02-10"},
+        {"id": "ev-hx-news", "kind": "funding_news",
+         "title": "宣布完成B轮融资8亿元", "status": "published",
+         "recorded_on": "2026-05-10",
+         "note": "仅为融资消息，不构成投产证据"},
+        {"id": "ev-hx-lic", "kind": "regulatory_license",
+         "title": "药品生产许可申请", "status": "under_review",
+         "recorded_on": "2026-06-01"}
+      ],
+      "issues": []
+    },
+    {
+      "id": "proj-ruike-device",
+      "name": "瑞珂一次性使用介入器械联合产业化项目",
+      "versions": [
+        {"version": 1, "event": "created", "effective_on": "2025-09-01",
+         "recorded_on": "2025-09-01", "stage": "planning",
+         "enterprise_id": "ent-ruike",
+         "park_ids": ["park-taihu", "park-binhai"], "joint": true,
+         "target_year": 2030, "planned_output": 180,
+         "bookings": [], "milestones": [], "dependencies": {}},
+        {"version": 2, "event": "stage_advance", "effective_on": "2025-09-15",
+         "recorded_on": "2025-09-15", "stage": "licensing",
+         "enterprise_id": "ent-ruike",
+         "park_ids": ["park-taihu", "park-binhai"], "joint": true,
+         "target_year": 2030, "planned_output": 180,
+         "bookings": [], "milestones": [], "dependencies": {}},
+        {"version": 3, "event": "stage_advance", "effective_on": "2026-03-20",
+         "recorded_on": "2026-03-20", "stage": "equipment",
+         "enterprise_id": "ent-ruike",
+         "park_ids": ["park-taihu", "park-binhai"], "joint": true,
+         "target_year": 2030, "planned_output": 180,
+         "bookings": [
+           {"facility_id": "fac-line-a", "start": "2027-03-01",
+            "end": "2030-12-31", "units_per_day": 0.55,
+            "purpose": "联合灭菌灌装"}
+         ],
+         "milestones": [
+           {"id": "ms-rk-1", "name": "关键设备校准与确认",
+            "due_on": "2026-10-31", "gate": "equipment_in_place"}
+         ],
+         "dependencies": {
+           "equipment": ["eq-isolator-02"],
+           "suppliers": ["sup-precision"],
+           "platforms": [],
+           "prerequisites": []
+         }},
+        {"version": 4, "event": "relocation", "effective_on": "2029-06-01",
+         "recorded_on": "2026-09-01", "stage": "equipment",
+         "enterprise_id": "ent-ruike",
+         "park_ids": ["park-taihu", "park-binhai"], "joint": true,
+         "target_year": 2030, "planned_output": 180,
+         "bookings": [
+           {"facility_id": "fac-line-b", "start": "2029-06-01",
+            "end": "2030-12-31", "units_per_day": 0.55,
+            "purpose": "迁移至太湖线B生产"}
+         ],
+         "milestones": [
+           {"id": "ms-rk-1", "name": "关键设备校准与确认",
+            "due_on": "2026-10-31", "gate": "equipment_in_place"}
+         ],
+         "dependencies": {
+           "equipment": ["eq-isolator-02"],
+           "suppliers": ["sup-precision"],
+           "platforms": [],
+           "prerequisites": []
+         },
+         "note": "共享线A占用冲突，预定2029年中迁移至太湖线B；迁移自生效日起换版"}
+      ],
+      "evidence": [
+        {"id": "ev-rk-agree", "kind": "investment_agreement",
+         "title": "跨园区联合投资协议", "status": "approved",
+         "recorded_on": "2025-09-10"},
+        {"id": "ev-rk-lic", "kind": "regulatory_license",
+         "title": "创新器械注册证", "status": "approved",
+         "recorded_on": "2026-03-10"},
+        {"id": "ev-rk-eq", "kind": "equipment_in_place",
+         "title": "隔离系统进场记录（待校准）", "status": "installed",
+         "recorded_on": "2026-08-20"}
+      ],
+      "issues": []
+    },
+    {
+      "id": "proj-boda-pack",
+      "name": "博达生物药冷链包装产能项目",
+      "versions": [
+        {"version": 1, "event": "created", "effective_on": "2025-08-01",
+         "recorded_on": "2025-08-01", "stage": "planning",
+         "enterprise_id": "ent-boda", "park_ids": ["park-jingnan"],
+         "joint": false, "target_year": 2030, "planned_output": 120,
+         "bookings": [], "milestones": [], "dependencies": {}},
+        {"version": 2, "event": "stage_advance", "effective_on": "2025-08-20",
+         "recorded_on": "2025-08-20", "stage": "licensing",
+         "enterprise_id": "ent-boda", "park_ids": ["park-jingnan"],
+         "joint": false, "target_year": 2030, "planned_output": 120,
+         "bookings": [], "milestones": [], "dependencies": {}},
+        {"version": 3, "event": "stage_advance", "effective_on": "2026-02-01",
+         "recorded_on": "2026-02-01", "stage": "equipment",
+         "enterprise_id": "ent-boda", "park_ids": ["park-jingnan"],
+         "joint": false, "target_year": 2030, "planned_output": 120,
+         "bookings": [
+           {"facility_id": "fac-line-c", "start": "2026-09-01",
+            "end": "2030-12-31", "units_per_day": 0.35,
+            "purpose": "冷链灌装包装"}
+         ],
+         "milestones": [],
+         "dependencies": {
+           "equipment": ["eq-cold-01"],
+           "suppliers": ["sup-nordic"],
+           "platforms": [],
+           "prerequisites": []
+         }},
+        {"version": 4, "event": "stage_advance", "effective_on": "2026-06-15",
+         "recorded_on": "2026-06-15", "stage": "acceptance",
+         "enterprise_id": "ent-boda", "park_ids": ["park-jingnan"],
+         "joint": false, "target_year": 2030, "planned_output": 120,
+         "bookings": [
+           {"facility_id": "fac-line-c", "start": "2026-09-01",
+            "end": "2030-12-31", "units_per_day": 0.35,
+            "purpose": "冷链灌装包装"}
+         ],
+         "milestones": [
+           {"id": "ms-bd-1", "name": "实际产能核验",
+            "due_on": "2026-09-30", "gate": "actual_capacity"}
+         ],
+         "dependencies": {
+           "equipment": ["eq-cold-01"],
+           "suppliers": ["sup-nordic"],
+           "platforms": [],
+           "prerequisites": []
+         }}
+      ],
+      "evidence": [
+        {"id": "ev-bd-agree", "kind": "investment_agreement",
+         "title": "投资协议（已签署）", "status": "approved",
+         "recorded_on": "2025-08-10"},
+        {"id": "ev-bd-comm", "kind": "investment_agreement",
+         "title": "投资协议商业条款附件（保密）", "status": "approved",
+         "recorded_on": "2025-08-12", "commercial": true},
+        {"id": "ev-bd-lic", "kind": "regulatory_license",
+         "title": "药品生产许可证", "status": "approved",
+         "recorded_on": "2026-01-20"},
+        {"id": "ev-bd-eq", "kind": "equipment_in_place",
+         "title": "冷链模块进场验收记录", "status": "verified",
+         "recorded_on": "2026-05-30"},
+        {"id": "ev-bd-acc", "kind": "acceptance_report",
+         "title": "厂房设施验收报告", "status": "completed",
+         "recorded_on": "2026-08-15"},
+        {"id": "ev-bd-cap", "kind": "actual_capacity",
+         "title": "试生产计量记录（待核验）", "status": "submitted",
+         "recorded_on": "2026-09-10", "amount": 60,
+         "window_days": 180, "year": 2026, "unit": "万支"}
+      ],
+      "issues": [
+        {"id": "ISS-001", "kind": "supplier_disruption",
+         "supplier_id": "sup-nordic",
+         "title": "关键供应商北欧冷链装备交付中断",
+         "raised_on": "2026-07-20", "description": "冷链模块备件与现场服务中断，影响产能核验"}
+      ]
+    },
+    {
+      "id": "proj-yuanze-cgt",
+      "name": "元泽基因细胞治疗CDMO项目",
+      "versions": [
+        {"version": 1, "event": "created", "effective_on": "2025-11-01",
+         "recorded_on": "2025-11-01", "stage": "planning",
+         "enterprise_id": "ent-yuanze", "park_ids": ["park-jingnan"],
+         "joint": false, "target_year": 2030, "planned_output": 100,
+         "bookings": [
+           {"facility_id": "fac-line-c", "start": "2028-01-01",
+            "end": "2030-12-31", "units_per_day": 0.2,
+            "purpose": "成品冷链包装"}
+         ],
+         "milestones": [
+           {"id": "ms-yz-1", "name": "中试批次交付",
+            "due_on": "2026-09-01"}
+         ],
+         "dependencies": {
+           "equipment": [], "suppliers": [], "platforms": [],
+           "prerequisites": ["proj-boda-pack"]
+         }},
+        {"version": 2, "event": "extension", "effective_on": "2026-08-01",
+         "recorded_on": "2026-07-25", "stage": "planning",
+         "enterprise_id": "ent-yuanze", "park_ids": ["park-jingnan"],
+         "joint": false, "target_year": 2030, "planned_output": 100,
+         "bookings": [
+           {"facility_id": "fac-line-c", "start": "2028-01-01",
+            "end": "2030-12-31", "units_per_day": 0.2,
+            "purpose": "成品冷链包装"}
+         ],
+         "milestones": [
+           {"id": "ms-yz-1", "name": "中试批次交付（延期后）",
+            "due_on": "2026-10-01"}
+         ],
+         "dependencies": {
+           "equipment": [], "suppliers": [], "platforms": [],
+           "prerequisites": ["proj-boda-pack"]
+         },
+         "note": "前置冷链包装产能受供应商影响，里程碑延期；自2026-08-01生效换版"},
+        {"version": 3, "event": "merger", "effective_on": "2027-01-01",
+         "recorded_on": "2026-08-10", "stage": "planning",
+         "enterprise_id": "ent-beimu", "name": "北慕·元泽细胞治疗CDMO项目",
+         "park_ids": ["park-jingnan"],
+         "joint": false, "target_year": 2030, "planned_output": 100,
+         "bookings": [
+           {"facility_id": "fac-line-c", "start": "2028-01-01",
+            "end": "2030-12-31", "units_per_day": 0.2,
+            "purpose": "成品冷链包装"}
+         ],
+         "milestones": [
+           {"id": "ms-yz-1", "name": "中试批次交付（延期后）",
+            "due_on": "2026-10-01"}
+         ],
+         "dependencies": {
+           "equipment": [], "suppliers": [], "platforms": [],
+           "prerequisites": ["proj-boda-pack"]
+         },
+         "note": "北慕制药并购元泽基因，主体自2027-01-01生效；此前版本仍按元泽基因复现"}
+      ],
+      "evidence": [
+        {"id": "ev-yz-agree", "kind": "investment_agreement",
+         "title": "投资协议（已签署）", "status": "approved",
+         "recorded_on": "2025-11-10"}
+      ],
+      "issues": []
+    },
+    {
+      "id": "proj-anrong-fill",
+      "name": "安融药业注射剂产能项目",
+      "versions": [
+        {"version": 1, "event": "created", "effective_on": "2024-06-01",
+         "recorded_on": "2024-06-01", "stage": "planning",
+         "enterprise_id": "ent-anrong", "park_ids": ["park-taihu"],
+         "joint": false, "target_year": 2030, "planned_output": 180,
+         "bookings": [], "milestones": [], "dependencies": {}},
+        {"version": 2, "event": "stage_advance", "effective_on": "2024-07-01",
+         "recorded_on": "2024-07-01", "stage": "licensing",
+         "enterprise_id": "ent-anrong", "park_ids": ["park-taihu"],
+         "joint": false, "target_year": 2030, "planned_output": 180,
+         "bookings": [], "milestones": [], "dependencies": {}},
+        {"version": 3, "event": "stage_advance", "effective_on": "2024-12-01",
+         "recorded_on": "2024-12-01", "stage": "equipment",
+         "enterprise_id": "ent-anrong", "park_ids": ["park-taihu"],
+         "joint": false, "target_year": 2030, "planned_output": 180,
+         "bookings": [
+           {"facility_id": "fac-line-b", "start": "2025-01-01",
+            "end": "2030-12-31", "units_per_day": 0.5,
+            "purpose": "商业化注射剂灌装"}
+         ],
+         "milestones": [],
+         "dependencies": {
+           "equipment": ["eq-reactor-01"],
+           "suppliers": ["sup-huachen"],
+           "platforms": [],
+           "prerequisites": []
+         }},
+        {"version": 4, "event": "stage_advance", "effective_on": "2025-02-01",
+         "recorded_on": "2025-02-01", "stage": "acceptance",
+         "enterprise_id": "ent-anrong", "park_ids": ["park-taihu"],
+         "joint": false, "target_year": 2030, "planned_output": 180,
+         "bookings": [
+           {"facility_id": "fac-line-b", "start": "2025-01-01",
+            "end": "2030-12-31", "units_per_day": 0.5,
+            "purpose": "商业化注射剂灌装"}
+         ],
+         "milestones": [],
+         "dependencies": {
+           "equipment": ["eq-reactor-01"],
+           "suppliers": ["sup-huachen"],
+           "platforms": [],
+           "prerequisites": []
+         }},
+        {"version": 5, "event": "stage_advance", "effective_on": "2026-09-01",
+         "recorded_on": "2026-09-01", "stage": "production",
+         "enterprise_id": "ent-anrong", "park_ids": ["park-taihu"],
+         "joint": false, "target_year": 2030, "planned_output": 180,
+         "bookings": [
+           {"facility_id": "fac-line-b", "start": "2025-01-01",
+            "end": "2030-12-31", "units_per_day": 0.5,
+            "purpose": "商业化注射剂灌装"}
+         ],
+         "milestones": [],
+         "dependencies": {
+           "equipment": ["eq-reactor-01"],
+           "suppliers": ["sup-huachen"],
+           "platforms": [],
+           "prerequisites": []
+         },
+         "note": "2026-08 实际产能核验通过后，9月1日换版进入投产"}
+      ],
+      "evidence": [
+        {"id": "ev-ar-agree", "kind": "investment_agreement",
+         "title": "投资协议（已签署）", "status": "approved",
+         "recorded_on": "2024-06-10"},
+        {"id": "ev-ar-lic", "kind": "regulatory_license",
+         "title": "药品生产许可证", "status": "approved",
+         "recorded_on": "2024-09-01"},
+        {"id": "ev-ar-eq", "kind": "equipment_in_place",
+         "title": "关键设备进场验收记录", "status": "verified",
+         "recorded_on": "2025-01-15"},
+        {"id": "ev-ar-acc", "kind": "acceptance_report",
+         "title": "竣工验收与验证报告", "status": "completed",
+         "recorded_on": "2025-03-01"},
+        {"id": "ev-ar-cap", "kind": "actual_capacity",
+         "title": "2026年上半年实际产能计量", "status": "verified",
+         "recorded_on": "2026-08-05", "amount": 90,
+         "window_days": 180, "year": 2026, "unit": "万支"}
+      ],
+      "issues": []
+    }
+  ]
 }
